@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.swing.plaf.PanelUI;
 import java.util.List;
 
 @RestController
@@ -30,8 +32,26 @@ public class BookController {
         Book book1 = bookService.createBook(title,author,description,image);
         return ResponseEntity.ok(book1);
     }
-    /*Modificamos tambien este metodo
-    public ResponseEntity<Book> addBook(@RequestBody Book book){
-        return new ResponseEntity<Book>(bookService.createBook(book),HttpStatus.CREATED);
-    }*/
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> getBookById(@PathVariable Long id){
+        Book book = bookService.getBookById(id);
+        return ResponseEntity.ok(book);
+    }
+
+    @PostMapping("/update/{id}")
+    public ResponseEntity<Book> updateBookById(@PathVariable Long id,
+                                                @RequestParam String title,
+                                               @RequestParam String author,
+                                               @RequestParam String description,
+                                               @RequestParam MultipartFile image){
+        Book book1 = bookService.updateBook(id,title,author,description,image);
+        return ResponseEntity.ok(book1);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteBook(@PathVariable Long id){
+        bookService.deleteBook(id);
+    }
+
 }
